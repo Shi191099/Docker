@@ -3,7 +3,7 @@
 # Create container
 
 docker images
-docker container create --name test-busybox --interactive --tty busybox
+docker container create --name test-busybox --interactive busybox
 docker ps
 docker ps --all
 docker container create --name test-ubuntu -i -t ubuntu
@@ -64,6 +64,7 @@ docker stop gracious_kare
 docker container rm gracious_kare
 docker container rm 3a42ec1e6479 7e6a73f8614e --force
 docker rm --force `docker ps -a -q`
+docker rm $(docker ps -a -q)
 
 
 # Kill a container
