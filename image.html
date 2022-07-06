@@ -1,0 +1,140 @@
+# Basic Dockerfile
+
+FROM ubuntu
+
+LABEL maintainer=shital
+
+CMD [“bash”]
+
+###########################
+
+mkdir ubuntu
+cd ubuntu
+vim dockerfile
+
+#### Dockerfile
+FROM ubuntu
+LABEL maintainer dhwani
+ADD https://drive.google.com/file/d/1YDqwHc7eZ4lpRS5PeyqvHBCtDsWy10d1/view?usp=sharing /tmp/hello.txt
+CMD ["bash"]
+####
+
+
+docker build -f dockerfile -t my-ubuntu .
+docker images
+docker run -it -d --name ubuntu my-ubuntu
+docker ps -a
+docker attach ubuntu
+ls
+cd tmp
+exit
+
+#######################################################
+
+## Dockerfile_03_RUN_ENV_WORKDIR
+
+vim test-2
+
+#### Dockerfile
+ARG CODE_VERSION=17.10
+FORM ubuntu:${CODE_VERSION}
+LABEL maintainer=dhwani
+RUN apt-get update && \
+apt-get install -y curl && \
+rm -rf /var/lib/apt/lists/*
+ENV HOME /root
+WORKDIR /root
+CMD [“bash”]
+####
+
+
+docker build --no-cache -f test-2 -t my-ubuntu-2 .
+docker images
+docker run -it -d --name test-ubuntu my-ubuntu-2
+docker ps -a
+
+######################################################
+
+## ENTRYPOINT Instruction
+
+mkdir test-files
+cd test-files
+touch test-4
+vim test-4
+
+#### Dockerfile
+FROM ubuntu:trusty
+ENTRYPOINT [“/bin/ping”, “-c”, “3”]
+CMD {“192.168.99.100”]
+####
+
+docker build -t test-4 -t test-image .
+docker images
+docker run -it --name test-container test-image
+docker ps -a
+
+###############################################33###
+
+# Search Docker images
+
+docker search httpd
+docker search --filter is-automated=true httpd
+docker search --filter is-official=true --filter starts=3 httpd
+docker search --format “table {{.Name}}\t{{.StarCount}}” httpd
+
+
+# Prune images
+
+docker images
+docker images prune
+docker images prune --all
+
+
+# Remove images
+
+docker images
+docker image rm busybox
+docker rmi redis
+docker image rm busybox redis
+
+# Tag an image
+
+docker images
+docker image tag busybox:latest my-busybox:latest
+docker image tag busybox:latest my-busybox:v1
+docker images
+
+
+# Save container state and push image
+
+docker images
+docker ps -a
+docker run -it -d --name test-busybox busybox
+docker container commit 5d1b789cdf86 test-busybox
+docker tag test-busybox dloonycorn/test-busybox
+docker login
+docker push dloonycorn/test-busybox
+
+
+# Pull images
+
+docker image pull busybox
+docker image pull ubuntu:16.04
+docker image pull --disable-content-trust nginx
+
+
+# Save image in tar file
+
+docker images
+docker save busybox > busybox.tar
+docker images
+
+
+# Load image from tar file
+
+docker images
+docker load < busybox.tar
+docker --input busybox.tar
+
+####################################################
+                         
