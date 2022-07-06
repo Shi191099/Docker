@@ -96,6 +96,7 @@ docker images
 docker image rm busybox
 docker rmi redis
 docker image rm busybox redis
+docker rmi $(docker images -q)
 
 # Tag an image
 
