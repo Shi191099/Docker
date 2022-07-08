@@ -14,7 +14,6 @@ vim dockerfile
 
 #### Dockerfile
 FROM ubuntu
-LABEL maintainer dhwani
 ADD https://drive.google.com/file/d/1YDqwHc7eZ4lpRS5PeyqvHBCtDsWy10d1/view?usp=sharing /tmp/hello.txt
 CMD ["bash"]
 ####
@@ -38,7 +37,6 @@ vim test-2
 #### Dockerfile
 ARG CODE_VERSION=17.10
 FORM ubuntu:${CODE_VERSION}
-LABEL maintainer=dhwani
 RUN apt-get update && \
 apt-get install -y curl && \
 rm -rf /var/lib/apt/lists/*
@@ -136,6 +134,18 @@ docker images
 docker images
 docker load < busybox.tar
 docker --input busybox.tar
+    
+                        
+# Rename image name
+
+docker tag OldName:tag NewName:tag         
+docker tag tomcat-image shikashi/tomcat-image
+  
+                         
+# Push image to hub
+                         
+docker push hubuser/imagename
+docker push shikashi/tomcat-image
 
 ####################################################
                          
